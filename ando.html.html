@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width,initial-scale=1'>
+<title>ANDŌ Masks — Shop</title>
+<style>
+  :root{--bg:#f7f7f8;--card:#fff;--muted:#9aa0a6;--accent:#111}
+  body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial, sans-serif;margin:0;background:var(--bg);color:var(--accent)}
+  header{background:#fff;padding:16px 20px;border-bottom:1px solid #eee;display:flex;justify-content:space-between;align-items:center}
+  .logo{font-weight:700;font-size:20px}
+  .container{max-width:1100px;margin:28px auto;padding:0 18px}
+  .hero{display:flex;gap:20px;align-items:center;background:#fff;padding:20px;border-radius:10px;border:1px solid #f0f0f0}
+  .hero img{width:280px;border-radius:8px}
+  .products{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-top:22px}
+  .card{background:var(--card);padding:14px;border-radius:12px;border:1px solid #eee;display:flex;flex-direction:column}
+  .card img{height:180px;object-fit:contain;border-radius:8px;background:#fafafa}
+  .price{font-weight:700;margin-top:8px}
+  .controls{display:flex;gap:8px;align-items:center;margin-top:10px}
+  .btn{background:#111;color:#fff;border:0;padding:10px 12px;border-radius:8px;cursor:pointer}
+  .btn.alt{background:#fff;color:#111;border:1px solid #ddd}
+  .cart-btn{position:relative}
+  .cart-count{position:absolute;top:-8px;right:-10px;background:#ff4d4f;color:#fff;padding:4px 7px;border-radius:20px;font-size:12px;display:none}
+  /* drawer */
+  .drawer{position:fixed;right:20px;top:80px;width:360px;max-width:90vw;background:var(--card);border-radius:12px;box-shadow:0 10px 30px rgba(15,15,15,0.12);transform:translateX(110%);transition:transform .25s ease;padding:14px;border:1px solid #eee;z-index:40}
+  .drawer.open{transform:translateX(0)}
+  .cart-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed #eee}
+  .cart-item img{width:56px;height:56px;border-radius:8px;background:#f1f1f2;object-fit:cover}
+  .total{display:flex;justify-content:space-between;font-weight:700;margin-top:12px}
+  footer{padding:18px;text-align:center;color:var(--muted);margin-top:28px}
+  @media(max-width:700px){.hero{flex-direction:column}.hero img{width:100%}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">ANDŌ</div>
+  <div>
+    <button class="btn" onclick="scrollToShop()">Shop</button>
+    <button class="btn cart-btn" id="openCartBtn">Cart <span class="cart-count" id="cartCount">0</span></button>
+  </div>
+</header>
+
+<main class="container">
+  <section class="hero">
+    <div style="flex:1">
+      <h1 style="margin:0 0 8px">Comfort. Style. Safety.</h1>
+      <p style="margin:0;color:var(--muted)">Lightweight, reusable masks. Choose Basic (₹150) or Filter (₹250). Select color and add to cart. No payment — order simulated.</p>
+      <div style="margin-top:12px">
+        <button class="btn" onclick="scrollToShop()">Browse Masks</button>
+      </div>
+    </div>
+    <img src="images/mask-filter.png" alt="ANDŌ Mask">
+  </section>
+
+  <section id="shop">
+    <h2 style="margin-top:24px">Products</h2>
+    <div class="products" id="productsList"></div>
+  </section>
+</main>
+
+<aside class="drawer" id="cartDrawer" aria-hidden="true">
+  <h3 style="margin:0 0 8px">Your Cart</h3>
+  <div id="cartItems"></div>
+  <div class="total"><span>Total</span><span id="cartTotal">₹0</span></div>
+  <div style="margin-top:12px;display:flex;gap:8px">
+    <button class="btn" id="placeOrderBtn">Place Order (No Payment)</button>
+    <button class="btn" id="clearCartBtn" style="background:#eee;color:#111;border:1px solid #ddd">Clear</button>
+  </div>
+</aside>
+
+<footer>ANDŌ © 2025 • Contact: info@andomasks.com</footer>
+
+<script>
+  const PRODUCTS = [
+    {
+      id: 'basic',
+      name: 'ANDŌ Basic Mask',
+      price: 150,
+      features: 'No extra filter, lightweight, breathable',
+      colors: ['Black','Light Grey','White'],
+      images: {'Black':'images/mask-basic.png','Light Grey':'images/mask-basic.png','White':'images/mask-basic.png'}
+    },
+    {
+      id: 'filter',
+      name: 'ANDŌ Filter Mask',
+      price: 250,
+      features: 'Includes 1 extra filter, premium quality',
+      colors: ['Black','Light Grey','White'],
+      images: {'Black':'images/mask-filter.png','Light Grey':'images/mask-filter.png','White':'images/mask-filter.png'}
+    }
+  ];
+
+  let cart = JSON.parse(localStorage.getItem('ando_cart') || '[]');
+
+  function saveCart(){ localStorage.setItem('ando_cart', JSON.stringify(cart)); renderCart(); }
+
+  function addToCart(prodId, color, qty){
+    qty = Number(qty)||1;
+    const existing = cart.find(i=>i.id===prodId && i.color===color);
+    if(existing){ existing.qty += qty; } else { cart.push({id:prodId,color,qty}); }
+    saveCart(); toast('Added to cart');
+  }
+
+  function removeFromCart(index){ cart.splice(index,1); saveCart(); }
+  function clearCart(){ cart=[]; saveCart(); }
+
+  function renderProducts(){
+    const el = document.getElementById('productsList'); el.innerHTML='';
+    PRODUCTS.forEach(p=>{
+      const card = document.createElement('div'); card.className='card';
+      card.innerHTML = `
+        <img id="img-${p.id}" src="${p.images[p.colors[0]]}" alt="${p.name}">
+        <div style="margin-top:10px"><strong>${p.name}</strong></div>
+        <div class="price">₹${p.price}</div>
+        <div style="color:var(--muted);font-size:13px">${p.features}</div>
+        <div class="controls">
+          <select id="color-${p.id}">${p.colors.map(c=>`<option value="${c}">${c}</option>`).join('')}</select>
+          <div style="display:flex;align-items:center;border:1px solid #eee;border-radius:8px;padding:4px">
+            <button onclick="changeQty('${p.id}',-1)">-</button>
+            <input type="number" id="qty-${p.id}" value="1" min="1" style="width:40px;border:0;text-align:center;background:transparent"/>
+            <button onclick="changeQty('${p.id}',1)">+</button>
+          </div>
+        </div>
+        <div style="margin-top:10px;display:flex;gap:8px">
+          <button class="btn" onclick="addToCartFromUI('${p.id}')">Add to Cart</button>
+          <button class="btn alt" onclick="buyNow('${p.id}')">Buy Now</button>
+        </div>
+      `;
+      el.appendChild(card);
+    });
+
+    // attach listeners for color change to update image
+    PRODUCTS.forEach(p=>{
+      const sel = document.getElementById('color-'+p.id);
+      const img = document.getElementById('img-'+p.id);
+      sel.addEventListener('change', ()=>{ const color = sel.value; if(p.images[color]) img.src = p.images[color]; });
+    });
+  }
+
+  function changeQty(id, delta){
+    const q = document.getElementById('qty-'+id);
+    let val = Number(q.value)||1; val+=delta; if(val<1) val=1; q.value=val;
+  }
+
+  function addToCartFromUI(id){
+    const color = document.getElementById('color-'+id).value;
+    const qty = Number(document.getElementById('qty-'+id).value)||1;
+    addToCart(id,color,qty);
+  }
+
+  function buyNow(id){
+    const p = PRODUCTS.find(x=>x.id===id);
+    const color = document.getElementById('color-'+id).value;
+    const qty = Number(document.getElementById('qty-'+id).value)||1;
+    const total = p.price*qty;
+    alert(`Order Summary\n\n${p.name}\nColor: ${color}\nQty: ${qty}\nTotal: ₹${total}\n\nThis is a simulated checkout (no payment).`);
+  }
+
+  function renderCart(){
+    const el = document.getElementById('cartItems'); el.innerHTML='';
+    if(cart.length===0){ el.innerHTML='<div style="color:var(--muted)">Your cart is empty</div>'; document.getElementById('cartCount').style.display='none'; document.getElementById('cartCount').textContent='0'; document.getElementById('cartTotal').textContent='₹0'; return; }
+    cart.forEach((item,idx)=>{
+      const p = PRODUCTS.find(x=>x.id===item.id);
+      const div = document.createElement('div'); div.className='cart-item';
+      div.innerHTML = `<img src="${p.images[item.color] || p.images[p.colors[0]]}" alt="${p.name}"/>
+        <div style="flex:1">
+          <div style="font-weight:600">${p.name}</div>
+          <div style="color:var(--muted)">${item.color} • Qty: ${item.qty}</div>
+          <div style="margin-top:6px;color:var(--muted)">₹${p.price} each</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">
+          <button style="background:#fff;border:1px solid #eee;padding:6px;border-radius:8px;cursor:pointer" onclick="removeFromCart(${idx})">Remove</button>
+        </div>`;
+      el.appendChild(div);
+    });
+    const total = cart.reduce((s,i)=>{ const p = PRODUCTS.find(x=>x.id===i.id); return s + (p.price * i.qty); },0);
+    document.getElementById('cartTotal').textContent = '₹'+total;
+    document.getElementById('cartCount').style.display='block'; document.getElementById('cartCount').textContent = cart.reduce((s,i)=>s+i.qty,0);
+  }
+
+  // drawer controls
+  const cartDrawer = document.getElementById('cartDrawer');
+  document.getElementById('openCartBtn').addEventListener('click', ()=>{ cartDrawer.classList.toggle('open'); cartDrawer.setAttribute('aria-hidden', !cartDrawer.classList.contains('open')); });
+
+  window.removeFromCart = function(i){ if(confirm('Remove item?')){ removeFromCart(i); } };
+  document.getElementById('clearCartBtn').addEventListener('click', ()=>{ if(confirm('Clear cart?')){ clearCart(); } });
+
+  document.getElementById('placeOrderBtn').addEventListener('click', ()=>{
+    if(cart.length===0){ alert('Cart is empty'); return; }
+    const total = cart.reduce((s,i)=>{ const p = PRODUCTS.find(x=>x.id===i.id); return s + (p.price * i.qty); },0);
+    // show simulated order summary
+    let summary = 'Order placed (simulated)\n\n';
+    cart.forEach(item=>{
+      const p = PRODUCTS.find(x=>x.id===item.id);
+      summary += `${p.name} — ${item.color} x${item.qty} = ₹${p.price*item.qty}\n`;
+    });
+    summary += `\nTotal: ₹${total}\n\nThank you!`;
+    alert(summary);
+    // clear cart after placing order
+    clearCart();
+  });
+
+  function toast(msg){
+    const t = document.createElement('div'); t.textContent = msg; t.style.position='fixed'; t.style.left='50%'; t.style.transform='translateX(-50%)'; t.style.bottom='24px'; t.style.background='#111'; t.style.color='#fff'; t.style.padding='10px 14px'; t.style.borderRadius='12px'; t.style.zIndex=9999; document.body.appendChild(t);
+    setTimeout(()=>t.remove(),1400);
+  }
+
+  function scrollToShop(){ document.getElementById('shop').scrollIntoView({behavior:'smooth'}); }
+
+  // init
+  renderProducts(); renderCart();
+</script>
+</body>
+</html>
