@@ -77,11 +77,14 @@
 <section class="hero">
  <h1 style="font-size:42px;margin-bottom:10px;">Welcome to ANDŌ Mask Store</h1>
   <p style="max-width:600px;margin:auto;color:#d1d1d1;">
-    Premium reusable masks designed for everyday life.
+  High-quality reusable masks with extra filters and premium comfort.
     Lightweight, modern, and protective.
   </p>
 
-  <img src="images/mask-filter.png" alt="ANDŌ Mask">
+ <img id="heroImage" 
+     src="images/mask-basic.png" 
+     style="width:280px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.6);margin-top:20px;transition:opacity 0.6s ease;">
+
 
   <br><br>
   <button class="btn" onclick="window.location.href='index.html'">Shop Now</button>
@@ -90,6 +93,44 @@
 <footer>
   © 2025 ANDŌ Mask Company — All Rights Reserved
 </footer>
+
+    <img id="heroImage" 
+       src="images/mask-basic.png" 
+       style="width:280px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.6);margin-top:20px;transition:opacity 0.6s ease;">
+
+  <br><br>
+  <button class="btn" onclick="window.location.href='index.html'">Shop Now</button>
+</section>
+
+<footer>
+  © 2025 ANDŌ Mask Company — All Rights Reserved
+</footer>
+
+<!-- 👇 yaha se script add karega -->
+<script>
+  const images = [
+    "images/mask-basic.png",
+    "images/mask-filter.png"
+  ];
+
+  let index = 0;
+  const img = document.getElementById("heroImage");
+
+  setInterval(() => {
+    img.style.opacity = 0;
+
+    setTimeout(() => {
+      index = (index + 1) % images.length;
+      img.src = images[index];
+      img.style.opacity = 1;
+    }, 600);
+
+  }, 2500);
+</script>
+<!-- 👆 script yahi khatam -->
+
+</body>
+</html>
 
 </body>
 </html>
