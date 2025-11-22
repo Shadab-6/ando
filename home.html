@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>ANDŌ - Home</title>
+  <style>
+    body{
+      margin:0;
+      font-family:Inter, sans-serif;
+      background:#000;
+      color:white;
+    }
+
+    header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:18px 24px;
+      background:#000;
+      position:sticky;
+      top:0;
+    }
+
+    .logo{
+      font-size:22px;
+      font-weight:700;
+    }
+
+    .btn{
+      background:#00a86b;
+      color:white;
+      padding:10px 16px;
+      border-radius:8px;
+      border:none;
+      cursor:pointer;
+      font-weight:600;
+      transition:0.2s;
+      text-decoration:none;
+    }
+
+    .btn:hover{
+      transform:translateY(-2px);
+      box-shadow:0 6px 18px rgba(0,0,0,0.5);
+    }
+
+    .hero{
+      text-align:center;
+      padding:80px 20px;
+    }
+
+    .hero img{
+      width:280px;
+      border-radius:12px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.6);
+      margin-top:20px;
+    }
+
+    footer{
+      text-align:center;
+      color:#aaa;
+      padding:30px 0;
+      border-top:1px solid #222;
+      margin-top:80px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">ANDŌ</div>
+  <div>
+    <button class="btn" onclick="window.location.href='home.html'">Home</button>
+    <button class="btn" onclick="window.location.href='index.html'">Shop</button>
+  </div>
+</header>
+
+<section class="hero">
+  <h1 style="font-size:42px;margin-bottom:10px;">Comfort. Style. Safety.</h1>
+  <p style="max-width:600px;margin:auto;color:#d1d1d1;">
+    Premium reusable masks designed for everyday life.
+    Lightweight, modern, and protective.
+  </p>
+
+  <img src="images/mask-filter.png" alt="ANDŌ Mask">
+
+  <br><br>
+  <button class="btn" onclick="window.location.href='index.html'">Shop Now</button>
+</section>
+
+<footer>
+  © 2025 ANDŌ Mask Company — All Rights Reserved
+</footer>
+
+</body>
+</html>
