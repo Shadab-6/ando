@@ -33,10 +33,21 @@
 </head>
 <body>
 <header>
-<div style="display:flex; gap:10px;">
-  <a href="#products">Shop</a>
-  <button id="cart-button">Cart</button>
-</div
+<header>
+  <div class="logo">ANDŌ</div>
+  <div>
+    <!-- HOME button -->
+    <button class="btn" onclick="window.location.href='index.html'">Home</button>
+
+    <!-- SHOP button -->
+    <button class="btn" onclick="scrollToShop()">Shop</button>
+
+    <!-- CART button -->
+    <button class="btn cart-btn" id="openCartBtn">
+      Cart <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</header>
   
 </header>
 
