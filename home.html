@@ -144,6 +144,82 @@
       .hero-image-wrap{order:-1;}
     }
   </style>
+  <style>
+  .products {
+    max-width: 960px;
+    margin: 3rem auto;
+    padding: 0 1rem;
+  }
+
+  .products h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    text-align: left;
+  }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .product-card {
+    border: 1px solid #e5e5e5;
+    border-radius: 14px;
+    padding: 1.5rem;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+    background: #ffffff;
+  }
+
+  .product-card h3 {
+    margin: 0 0 0.3rem;
+    font-size: 1.2rem;
+    letter-spacing: 0.04em;
+  }
+
+  .product-card .price {
+    margin: 0 0 0.8rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+
+  .product-card ul {
+    padding-left: 1.1rem;
+    margin: 0 0 1.2rem;
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+  .product-card li {
+    margin-bottom: 0.3rem;
+  }
+
+  .btn-primary,
+  .btn-outline {
+    display: inline-block;
+    padding: 0.55rem 1.2rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    border: 1px solid #111;
+  }
+
+  .btn-primary {
+    background: #111;
+    color: #fff;
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: #111;
+  }
+
+  .btn-primary:hover,
+  .btn-outline:hover {
+    transform: translateY(-1px);
+  }
+</style>
+
 </head>
 <body>
 
@@ -165,11 +241,36 @@
         daily travel, office and outdoor use.
       </p>
 
-      <ul class="hero-bullets">
-        <li>Two models: Basic (₹50) &amp; Filter (₹150 with extra filter).</li>
-        <li>Colors: Black, Light Grey, White.</li>
-        <li>Soft, breathable fabric with a clean minimal look.</li>
+ <section class="products" id="products">
+  <h2>Our Masks</h2>
+
+  <div class="product-grid">
+    <!-- Basic Mask Card -->
+    <div class="product-card">
+      <h3>Basic Mask</h3>
+      <p class="price">₹50</p>
+      <ul>
+        <li>Perfect for everyday use</li>
+        <li>Colors: Black, Light Grey, White</li>
+        <li>Soft, breathable fabric</li>
       </ul>
+      <a href="#" class="btn-primary">Shop Basic Mask</a>
+    </div>
+
+    <!-- Filter Mask Card -->
+    <div class="product-card">
+      <h3>Filter Mask</h3>
+      <p class="price">₹150</p>
+      <ul>
+        <li>Extra protection with filter layer</li>
+        <li>Colors: Black, Light Grey, White</li>
+        <li>Reusable and value friendly</li>
+      </ul>
+      <a href="#" class="btn-outline">Shop Filter Mask</a>
+    </div>
+  </div>
+</section>
+
 
       <div class="hero-cta">
         <button class="btn" onclick="window.location.href='index.html'">Explore Masks</button>
