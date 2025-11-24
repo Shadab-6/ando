@@ -197,6 +197,48 @@
       .hero-bullets{text-align:left;display:inline-block;}
       .hero-image-wrap{order:-1;}
     }
+    .reviews {
+  max-width: 1100px;
+  margin: 0 auto 60px auto;
+  padding: 0 20px;
+}
+
+.reviews-title {
+  font-size: 22px;
+  margin-bottom: 16px;
+  color:#fff;
+  text-align:left;
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.review-card {
+  background:#101010;
+  border-radius:14px;
+  padding:16px;
+  border:1px solid #1f1f1f;
+  color:#b8bcc0;
+  font-size:14px;
+  line-height:1.5;
+}
+
+.stars {
+  font-size:18px;
+  margin-bottom:6px;
+}
+
+.review-name {
+  display:block;
+  margin-top:8px;
+  font-size:13px;
+  color:#00a86b;
+  font-weight:600;
+}
+
   </style>
   </style>
 <style>
@@ -396,6 +438,32 @@
       </div>
     </div>
   </section>
+  <section class="reviews">
+  <h2 class="reviews-title">What Our Customers Say</h2>
+
+  <div class="reviews-grid">
+
+    <div class="review-card">
+      <div class="stars">⭐⭐⭐⭐⭐</div>
+      <p>"Very comfortable mask! I wear it daily and it feels soft and light."</p>
+      <span class="review-name">– Aisha</span>
+    </div>
+
+    <div class="review-card">
+      <div class="stars">⭐⭐⭐⭐⭐</div>
+      <p>"Quality is amazing for the price. Totally worth it!"</p>
+      <span class="review-name">– Rahul</span>
+    </div>
+
+    <div class="review-card">
+      <div class="stars">⭐⭐⭐⭐⭐</div>
+      <p>"Fits perfectly and looks stylish. Loved the minimal design."</p>
+      <span class="review-name">– Neha</span>
+    </div>
+
+  </div>
+</section>
+
 
   <!-- FOOTER -->
  <footer>
