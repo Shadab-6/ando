@@ -340,6 +340,31 @@
   .btn-outline:hover {
     transform: translateY(-1px);
   }
+  .add-review {
+  max-width:1100px;
+  margin: 0 auto 60px auto;
+  padding:0 20px;
+}
+
+#reviewForm {
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+#reviewForm input,
+#reviewForm textarea {
+  background:#101010;
+  border:1px solid #1f1f1f;
+  border-radius:10px;
+  padding:10px;
+  color:#fff;
+}
+
+#reviewForm button {
+  width:150px;
+}
+
 </style>
 
 </head>
@@ -463,7 +488,16 @@
 
   </div>
 </section>
+<section class="add-review">
+  <h2 class="reviews-title">Add Your Review</h2>
+  <form id="reviewForm">
+    <input type="text" id="username" placeholder="Your Name" required>
+    <textarea id="reviewText" placeholder="Write your review..." required></textarea>
+    <button type="submit" class="btn-primary">Post Review</button>
+  </form>
+</section>
 
+  
 
   <!-- FOOTER -->
  <footer>
@@ -518,6 +552,30 @@
 
     }, 2500);
   </script>
-  
+
+  <script>
+const form = document.getElementById("reviewForm");
+const reviewsGrid = document.querySelector(".reviews-grid");
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const name = document.getElementById("username").value;
+  const text = document.getElementById("reviewText").value;
+
+  const div = document.createElement("div");
+  div.className = "review-card";
+  div.innerHTML = `
+    <div class="stars">⭐⭐⭐⭐⭐</div>
+    <p>"${text}"</p>
+    <span class="review-name">– ${name}</span>
+  `;
+
+  reviewsGrid.appendChild(div);
+
+  form.reset();
+});
+</script>
+
 </body>
 </html>
