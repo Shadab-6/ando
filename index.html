@@ -339,7 +339,10 @@ background:#111;
             </select>
             <input type="number" min="1" value="1" data-role="qty">
           </div>
-          <button class="btn" data-role="add">Add to Cart</button>
+         ${product.stock === 0 
+  ? `<span class="out-of-stock">Out of Stock</span>` 
+  : `<button class="btn" data-role="add">Add to Cart</button>`
+}
         </div>
       `;
 
