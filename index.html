@@ -208,6 +208,12 @@ background:#111;
       header{padding:10px 14px;}
       .drawer{width:100%;max-width:360px;}
     }
+    .out-of-stock {
+  color: red;
+  font-weight: bold;
+  margin-top: 6px;
+  display: block;
+}
   </style>
 </head>
 <body>
@@ -292,6 +298,7 @@ background:#111;
       name: 'ANDŌ Basic Mask',
       price: 50,
       image: 'images/mask-basic.png',
+        stock: 10, // ✔ Available
       description: 'Lightweight reusable mask without extra filter.',
       options: {
         colors: ['Black', 'Light Grey', 'White']
@@ -302,6 +309,7 @@ background:#111;
       name: 'ANDŌ Filter Mask',
       price: 150,
       image: 'images/mask-filter.png',
+      stock: 0, // ❌ Out of stock
       description: 'Mask with 1 extra filter for added protection.',
       options: {
         colors: ['Black', 'Light Grey', 'White']
