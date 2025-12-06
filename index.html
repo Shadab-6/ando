@@ -319,46 +319,50 @@ background:#111;
 
   let cart = [];
 
-  function renderProducts() {
-    const list = document.getElementById('productsList');
-    list.innerHTML = '';
+function renderProducts() {
+  const list = document.getElementById('productsList');
+  list.innerHTML = '';
 
-    PRODUCTS.forEach(product => {
-      const card = document.createElement('div');
-      card.className = 'card';
+  PRODUCTS.forEach(product => {
+    const card = document.createElement('div');
+    card.className = 'card';
 
-      card.innerHTML = `
-        <img src="${product.image}" alt="${product.name}">
-        <div class="card-title">${product.name}</div>
-        <div class="card-price">₹${product.price}</div>
-        <div class="card-desc">${product.description}</div>
-        <div class="card-controls">
-          <div>
-            <select data-role="color">
-              ${product.options.colors.map(c => `<option value="${c}">${c}</option>`).join('')}
-            </select>
-            <input type="number" min="1" value="1" data-role="qty">
-          </div>
-         ${product.stock === 0 
-  ? `<span class="out-of-stock">Out of Stock</span>` 
-  : `<button class="btn" data-role="add">Add to Cart</button>`
-}
+    card.innerHTML = `
+      <img src="${product.image}" alt="${product.name}">
+      <div class="card-title">${product.name}</div>
+      <div class="card-price">₹${product.price}</div>
+      <div class="card-desc">${product.description}</div>
+      <div class="card-controls">
+        <div>
+          <select data-role="color">
+            ${product.options.colors.map(c => `<option value="${c}">${c}</option>`).join('')}
+          </select>
+          <input type="number" min="1" value="1" data-role="qty">
         </div>
-      `;
 
-      const addBtn = card.querySelector('[data-role="add"]');
-      const colorSelect = card.querySelector('[data-role="color"]');
-      const qtyInput = card.querySelector('[data-role="qty"]');
+        ${product.stock === 0
+          ? '<span class="out-of-stock">Out of Stock</span>'
+          : '<button class="btn" data-role="add">Add to Cart</button>'}
+      </div>
+    `;
 
+    const addBtn = card.querySelector('[data-role="add"]');
+    const colorSelect = card.querySelector('[data-role="color"]');
+    const qtyInput = card.querySelector('[data-role="qty"]');
+
+    // ⚠️ Only add click handler if button exists (i.e., not out of stock)
+    if (addBtn) {
       addBtn.addEventListener('click', () => {
         const color = colorSelect.value;
         const qty = Math.max(1, parseInt(qtyInput.value) || 1);
         addToCart(product, color, qty);
       });
+    }
 
-      list.appendChild(card);
-    });
-  }
+    list.appendChild(card);
+  });
+}
+
 
   function addToCart(product, color, qty) {
     const existing = cart.find(
